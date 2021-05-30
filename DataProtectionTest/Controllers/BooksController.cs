@@ -25,10 +25,11 @@ namespace DataProtectionTest.Controllers
         public async Task<IActionResult> Index()
         {
             var products = await _context.Book.ToListAsync();
+            var timeLimitedProtector = _dataProtector.ToTimeLimitedDataProtector();
 
             products.ForEach(x =>
             {
-                x.EncryptedId = _dataProtector.Protect(x.Id.ToString());
+                x.EncryptedId = timeLimitedProtector.Protect(x.Id.ToString(), TimeSpan.FromSeconds(5));
             });
 
             return View(products);
@@ -42,7 +43,9 @@ namespace DataProtectionTest.Controllers
                 return NotFound();
             }
 
-            int decryptedId = int.Parse(_dataProtector.Unprotect(id));
+            var timeLimitedProtector = _dataProtector.ToTimeLimitedDataProtector();
+
+            int decryptedId = int.Parse(timeLimitedProtector.Unprotect(id));
 
             var book = await _context.Book
                 .FirstOrDefaultAsync(m => m.Id == decryptedId);
