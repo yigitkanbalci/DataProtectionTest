@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataProtectionAPI.Controllers
 {
+    [EnableCors("AllowSites")]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
