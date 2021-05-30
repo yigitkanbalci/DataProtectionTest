@@ -1,3 +1,4 @@
+using DataProtectionTest.MiddleWare;
 using DataProtectionTest.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,6 +26,7 @@ namespace DataProtectionTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<IPList>(Configuration.GetSection("IPList"));
             services.AddDbContext<BookListRazorContext>(options =>
             {
                 options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=BookListRazor;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
@@ -54,6 +56,8 @@ namespace DataProtectionTest
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<IPSafeMiddleWare>();
 
             app.UseEndpoints(endpoints =>
             {
