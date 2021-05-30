@@ -29,7 +29,7 @@ namespace DataProtectionTest.Controllers
 
             products.ForEach(x =>
             {
-                x.EncryptedId = timeLimitedProtector.Protect(x.Id.ToString(), TimeSpan.FromSeconds(5));
+                x.EncryptedId = timeLimitedProtector.Protect(x.Id.ToString(), TimeSpan.FromSeconds(120));
             });
 
             return View(products);
