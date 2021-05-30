@@ -1,4 +1,5 @@
-﻿using DataProtectionTest.Models;
+﻿using DataProtectionTest.Filters;
+using DataProtectionTest.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataProtectionTest.Controllers
 {
+    [ServiceFilter(typeof(CheckWhiteList))]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
